@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModMetaData>
+	<name>Heated Floors</name>
+	<author>Smash Phil</author>
+	<supportedVersions>
+		<li>1.0</li>
+	</supportedVersions>
+	
+	<description>
+		Prevent snow from falling on these heated floors! Requires power to activate.
+	</description>
+</ModMetaData>

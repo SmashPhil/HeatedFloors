@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+	<ThingDef ParentName="BuildingBase" Name="PowerConduit">
+    <defName>PowerConduitHF</defName>
+    <label>powerconduitHF (should not see this)</label>
+    <description>A bundle of electrical cables for moving power around. Can be placed under walls and other buildings.</description>
+    <thingClass>Building</thingClass>
+    <category>Building</category>
+    <graphicData>
+      <texPath>HeatedFloors/HeatedFloorNoShow</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <linkType>Transmitter</linkType>
+      <linkFlags>
+        <li>PowerConduit</li>
+      </linkFlags>
+      <damageData>
+        <rect>(0,0.35,1,0.3)</rect>
+      </damageData>
+    </graphicData>
+    <uiIconPath>Things/Building/Linked/PowerConduit_MenuIcon</uiIconPath>
+    <uiIconScale>0.7</uiIconScale>
+    <building>
+			<ai_chillDestination>false</ai_chillDestination>
+			<isInert>true</isInert>
+      <isEdifice>false</isEdifice>
+      <blueprintGraphicData>
+        <texPath>Things/Building/Linked/PowerConduit_Blueprint_Atlas</texPath>
+      </blueprintGraphicData>
+    </building>
+    <altitudeLayer>FloorEmplacement</altitudeLayer>
+    <passability>Standable</passability>
+    <leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
+    <statBases>
+      <MaxHitPoints>80</MaxHitPoints>
+      <WorkToBuild>35</WorkToBuild>
+      <Flammability>0.7</Flammability>
+      <Beauty>-2</Beauty>
+    </statBases>
+    <placingDraggableDimensions>1</placingDraggableDimensions>
+    <costList>
+      <Steel>1</Steel>
+    </costList>
+    <comps>
+      <li Class="CompProperties_Power">
+        <compClass>CompPowerTransmitter</compClass>
+        <transmitsPower>true</transmitsPower>
+      </li>
+    </comps>
+    <placeWorkers>
+      <li>PlaceWorker_Conduit</li>
+    </placeWorkers>
+    <rotatable>false</rotatable>
+    <selectable>false</selectable>
+    <neverMultiSelect>true</neverMultiSelect>
+    <soundImpactDefault>BulletImpact_Metal</soundImpactDefault>
+    <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+    <constructEffect>ConstructMetal</constructEffect>
+    <clearBuildingArea>false</clearBuildingArea>
+    <designationHotKey>Misc1</designationHotKey>
+    <researchPrerequisites>
+      <li>Electricity</li>
+    </researchPrerequisites>
+  </ThingDef>
+
+	<ThingDef ParentName="BuildingBase" Name="HeatedFloor">
+    <defName>HeatedFloorThing</defName>
+    <label>Heated Floor</label>
+    <description>Heated flooring that prevents snow from piling up on this tile.</description>
+    <thingClass>Building</thingClass>
+    <category>Building</category>
+    <graphicData>
+		<texPath>HeatedFloors/HeatedFloorNoShow</texPath>
+		<graphicClass>Graphic_Single</graphicClass>
+		<damageData>
+			<rect>(0,0.35,1,0.3)</rect>
+		</damageData>
+    </graphicData>
+	<uiIconPath>HeatedFloors/HeatedFloor1</uiIconPath>
+    <uiIconScale>0.7</uiIconScale>
+    <altitudeLayer>FloorEmplacement</altitudeLayer>
+    <passability>Standable</passability>
+    <leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
+    <statBases>
+		<MaxHitPoints>180</MaxHitPoints>
+		<WorkToBuild>350</WorkToBuild>
+		<Flammability>0.7</Flammability>
+		<Beauty>0</Beauty>
+    </statBases>
+    <placingDraggableDimensions>1</placingDraggableDimensions>
+    <costList>
+		<Steel>10</Steel>
+    </costList>
+    <comps>
+		<li Class="CompProperties_Power">
+			<compClass>CompPowerTrader</compClass>
+			<basePowerConsumption>50</basePowerConsumption>
+		</li>
+    </comps>
+    <rotatable>false</rotatable>
+    <selectable>true</selectable>
+    <neverMultiSelect>true</neverMultiSelect>
+    <soundImpactDefault>BulletImpact_Metal</soundImpactDefault>
+    <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+    <designationCategory>Floors</designationCategory>
+    <constructEffect>ConstructMetal</constructEffect>
+    <clearBuildingArea>false</clearBuildingArea>
+    <designationHotKey>Misc1</designationHotKey>
+    <researchPrerequisites>
+      <li>Electricity</li>
+	  <li>Stonecutting</li>
+    </researchPrerequisites>
+  </ThingDef>
+</Defs>
