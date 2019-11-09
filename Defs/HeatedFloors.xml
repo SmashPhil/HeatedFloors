@@ -81,9 +81,9 @@
     <passability>Standable</passability>
     <leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
     <statBases>
-		<MaxHitPoints>180</MaxHitPoints>
+		<MaxHitPoints>150</MaxHitPoints>
 		<WorkToBuild>350</WorkToBuild>
-		<Flammability>0.7</Flammability>
+		<Flammability>0.2</Flammability>
 		<Beauty>0</Beauty>
     </statBases>
     <placingDraggableDimensions>1</placingDraggableDimensions>
@@ -93,7 +93,7 @@
     <comps>
 		<li Class="CompProperties_Power">
 			<compClass>CompPowerTrader</compClass>
-			<basePowerConsumption>50</basePowerConsumption>
+			<basePowerConsumption>5</basePowerConsumption>
 		</li>
     </comps>
     <rotatable>false</rotatable>

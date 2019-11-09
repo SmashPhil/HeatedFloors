@@ -40,12 +40,12 @@ namespace HeatedFloors
             harmony.Patch(original: AccessTools.Method(type: typeof(Building), name: nameof(Building.Destroy)),
                 prefix: new HarmonyMethod(type: typeof(HeatedFloorsHarmony),
                 name: nameof(DestroyConduitWithHF)));
-            /*harmony.Patch(original: AccessTools.Method(type: typeof(Building), name: nameof(Building.DeSpawn)),
-                prefix: new HarmonyMethod(type: typeof(HeatedFloorsHarmony),
-                name: nameof(DestroyConduitWithHF)));*/
             harmony.Patch(original: AccessTools.Method(type: typeof(CompPower), name: nameof(CompPower.CompGetGizmosExtra)), prefix: null,
                 postfix: new HarmonyMethod(type: typeof(HeatedFloorsHarmony),
                 name: nameof(RemoveReconnectGizmo)));
+            harmony.Patch(original: AccessTools.Method(type: typeof(CompPowerTrader), name: nameof(CompPowerTrader.PostDraw)),
+                prefix: new HarmonyMethod(type: typeof(HeatedFloorsHarmony),
+                name: nameof(LowPowerMode)));
         }
 
         private static bool CanHaveSnowOnHeatedFloors(Map ___map, ref bool __result, int ind)
@@ -99,11 +99,11 @@ namespace HeatedFloors
             }
         }
 
-        public static void DestroyConduitWithHF(Building __instance)
+        public static void DestroyConduitWithHF(Building __instance, DestroyMode mode)
         {
-            Thing thing = __instance.Position.GetThingList(__instance.Map).Find(x => x.def == DefDatabase<ThingDef>.GetNamed("PowerConduitHF"));
+            Thing thing = __instance?.Position.GetThingList(__instance.Map).Find(x => x.def == DefDatabase<ThingDef>.GetNamed("PowerConduitHF"));
 
-            if (thing != null)
+            if(thing != null && mode == DestroyMode.Deconstruct)
             {
                 thing.DeSpawn(DestroyMode.Vanish);
             }
@@ -116,6 +116,18 @@ namespace HeatedFloors
                 List<Gizmo> gizmos = __result.Where(x => !(x is Command_Action)).ToList();
                 __result = gizmos;
             }
+        }
+
+        public static bool LowPowerMode(CompPowerTrader __instance)
+        {
+            if(Find.TickManager.TicksGame % 100 == 0 && __instance.parent.def.defName == "HeatedFloorThing")
+            {
+                if (__instance.parent.Map.weatherManager.SnowRate > 0.5f)
+                    __instance.PowerOutput = -1f * __instance.Props.basePowerConsumption * (__instance.parent.Map.weatherManager.SnowRate*10f);
+                else
+                    __instance.PowerOutput = -1f * __instance.Props.basePowerConsumption;
+            }
+            return true;
         }
     }
 }
