@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Defs>
-	<ThingDef ParentName="BuildingBase" Name="PowerConduitHF">
+	<ThingDef ParentName="BuildingBase">
     <defName>PowerConduitHF</defName>
     <label>powerconduitHF (should not see this)</label>
     <description>A bundle of electrical cables for moving power around. Can be placed under walls and other buildings.</description>

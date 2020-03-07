@@ -5,7 +5,7 @@ using System.Reflection;
 using System.Reflection.Emit;
 using System.Runtime.CompilerServices;
 using System.Text;
-using Harmony;
+using HarmonyLib;
 using RimWorld;
 using RimWorld.BaseGen;
 using RimWorld.Planet;
@@ -24,28 +24,28 @@ namespace HeatedFloors
     {
         static HeatedFloorsHarmony()
         {
-            var harmony = HarmonyInstance.Create("rimworld.heatedfloors.smashphil");
+            var harmony = new Harmony("rimworld.heatedfloors.smashphil");
             harmony.PatchAll(Assembly.GetExecutingAssembly());
             //HarmonyInstance.DEBUG = true;
 
             harmony.Patch(original: AccessTools.Method(type: typeof(SnowGrid), name: "CanHaveSnow"),
-                prefix: new HarmonyMethod(type: typeof(HeatedFloorsHarmony),
-                name: nameof(CanHaveSnowOnHeatedFloors)));
+                prefix: new HarmonyMethod(typeof(HeatedFloorsHarmony),
+                nameof(CanHaveSnowOnHeatedFloors)));
             harmony.Patch(original: AccessTools.Property(type: typeof(CompPowerTrader), name: nameof(CompPowerTrader.PowerOn)).GetSetMethod(), prefix: null,
-                postfix: new HarmonyMethod(type: typeof(HeatedFloorsHarmony),
-                name: nameof(RemoveSnowFromHeatedFloors)));
+                postfix: new HarmonyMethod(typeof(HeatedFloorsHarmony),
+                nameof(RemoveSnowFromHeatedFloors)));
             harmony.Patch(original: AccessTools.Method(type: typeof(Frame), name: nameof(Frame.CompleteConstruction)), prefix: null, postfix: null,
-                transpiler: new HarmonyMethod(type: typeof(HeatedFloorsHarmony),
-                name: nameof(PlaceConduitUnderHeatedFloorTranspiler)));
+                transpiler: new HarmonyMethod(typeof(HeatedFloorsHarmony),
+                nameof(PlaceConduitUnderHeatedFloorTranspiler)));
             harmony.Patch(original: AccessTools.Method(type: typeof(Building), name: nameof(Building.Destroy)),
-                prefix: new HarmonyMethod(type: typeof(HeatedFloorsHarmony),
-                name: nameof(DestroyConduitWithHF)));
+                prefix: new HarmonyMethod(typeof(HeatedFloorsHarmony),
+                nameof(DestroyConduitWithHF)));
             harmony.Patch(original: AccessTools.Method(type: typeof(CompPower), name: nameof(CompPower.CompGetGizmosExtra)), prefix: null,
-                postfix: new HarmonyMethod(type: typeof(HeatedFloorsHarmony),
-                name: nameof(RemoveReconnectGizmo)));
+                postfix: new HarmonyMethod(typeof(HeatedFloorsHarmony),
+                nameof(RemoveReconnectGizmo)));
             harmony.Patch(original: AccessTools.Method(type: typeof(CompPowerTrader), name: nameof(CompPowerTrader.PostDraw)),
-                prefix: new HarmonyMethod(type: typeof(HeatedFloorsHarmony),
-                name: nameof(LowPowerMode)));
+                prefix: new HarmonyMethod(typeof(HeatedFloorsHarmony),
+                nameof(LowPowerMode)));
         }
 
         private static bool CanHaveSnowOnHeatedFloors(Map ___map, ref bool __result, int ind)
@@ -74,8 +74,8 @@ namespace HeatedFloors
             for (int i = 0; i < instructionList.Count; i++)
             {
                 CodeInstruction instruction = instructionList[i];
-                if (instruction.opcode == OpCodes.Call && instruction.operand == AccessTools.Method(type: typeof(GenSpawn), parameters: new Type[]{typeof(Thing), typeof(IntVec3),
-                        typeof(Map), typeof(Rot4), typeof(WipeMode), typeof(bool) }, name: nameof(GenSpawn.Spawn)))
+                if (instruction.Calls(AccessTools.Method(type: typeof(GenSpawn), parameters: new Type[]{typeof(Thing), typeof(IntVec3),
+                        typeof(Map), typeof(Rot4), typeof(WipeMode), typeof(bool) }, name: nameof(GenSpawn.Spawn))))
                 {
                     yield return instruction;
                     i += 2;
