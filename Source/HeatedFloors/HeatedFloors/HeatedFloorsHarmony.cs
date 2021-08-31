@@ -43,7 +43,7 @@ namespace HeatedFloors
             harmony.Patch(original: AccessTools.Method(type: typeof(CompPower), name: nameof(CompPower.CompGetGizmosExtra)), prefix: null,
                 postfix: new HarmonyMethod(typeof(HeatedFloorsHarmony),
                 nameof(RemoveReconnectGizmo)));
-            harmony.Patch(original: AccessTools.Method(type: typeof(CompPowerTrader), name: nameof(CompPowerTrader.PostDraw)),
+            harmony.Patch(original: AccessTools.Method(type: typeof(ThingComp), name: nameof(ThingComp.PostDraw)),
                 prefix: new HarmonyMethod(typeof(HeatedFloorsHarmony),
                 nameof(LowPowerMode)));
         }
