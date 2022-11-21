@@ -103,7 +103,7 @@ namespace HeatedFloors
         {
             Thing thing = __instance?.Position.GetThingList(__instance.Map).Find(x => x.def == DefDatabase<ThingDef>.GetNamed("PowerConduitHF"));
 
-            if(thing != null && mode == DestroyMode.Deconstruct)
+            if (thing != null && mode == DestroyMode.Deconstruct)
             {
                 thing.DeSpawn(DestroyMode.Vanish);
             }
@@ -111,7 +111,7 @@ namespace HeatedFloors
 
         public static void RemoveReconnectGizmo(CompPower __instance, ref IEnumerable<Gizmo> __result)
         {
-            if(__instance.parent.def.defName == "HeatedFloorThing")
+            if (__instance.parent.def.defName == "HeatedFloorThing")
             {
                 List<Gizmo> gizmos = __result.Where(x => !(x is Command_Action)).ToList();
                 __result = gizmos;
@@ -123,9 +123,13 @@ namespace HeatedFloors
             if(Find.TickManager.TicksGame % 100 == 0 && __instance.parent.def.defName == "HeatedFloorThing")
             {
                 if (__instance.parent.Map.weatherManager.SnowRate > 0.5f)
-                    __instance.PowerOutput = -1f * __instance.Props.basePowerConsumption * (__instance.parent.Map.weatherManager.SnowRate*10f);
+                {
+                    __instance.PowerOutput = -1f * __instance.Props.PowerConsumption * (__instance.parent.Map.weatherManager.SnowRate * 10f);
+                }
                 else
-                    __instance.PowerOutput = -1f * __instance.Props.basePowerConsumption;
+                {
+                    __instance.PowerOutput = -1f * __instance.Props.PowerConsumption;
+                }
             }
             return true;
         }
